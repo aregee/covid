@@ -57,6 +57,8 @@ const query = {
         districtData {
           district
           confirmed
+          recovered
+          deceased
           lastupdatedtime
         }
       }
@@ -77,6 +79,15 @@ const query = {
           state
           statecode
           statenotes
+        }
+        casesTimeSeries {
+          dailyconfirmed
+          dailydeceased
+          dailyrecovered
+          date
+          totalconfirmed
+          totaldeceased
+          totalrecovered
         }
         tested {
           positivecasesfromsamplesreported
@@ -141,7 +152,10 @@ const query = {
         districtData {
           district
           confirmed
+          active
+          deceased
           lastupdatedtime
+          recovered
         }
       }
       india {
@@ -157,6 +171,15 @@ const query = {
           state
           statecode
           statenotes
+        }
+        casesTimeSeries {
+          dailyconfirmed
+          dailydeceased
+          dailyrecovered
+          date
+          totalconfirmed
+          totaldeceased
+          totalrecovered
         }
         tested {
           positivecasesfromsamplesreported
@@ -217,12 +240,21 @@ export const getQuery = (type, id) => {
             state
             statecode
           }
+          casesTimeSeries {
+            dailyconfirmed
+            dailydeceased
+            dailyrecovered
+            date
+            totalconfirmed
+            totaldeceased
+            totalrecovered
+          }
         }
       }
     `;
   } else if (type === 'district') {
     return gql`
-      {district(stateName: "${id}") { state, districtData {district, confirmed, lastupdatedtime} }}
+      {district(stateName: "${id}") { state, districtData {district, confirmed, recovered, deceased, lastupdatedtime} }}
     `;
   } else if (type === 'country' && id === 'india') {
     return gql`
@@ -235,6 +267,15 @@ export const getQuery = (type, id) => {
             recovered
             state
             statecode
+          }
+          casesTimeSeries {
+            dailyconfirmed
+            dailydeceased
+            dailyrecovered
+            date
+            totalconfirmed
+            totaldeceased
+            totalrecovered
           }
         }
       }
